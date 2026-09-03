@@ -1,0 +1,695 @@
+:root {
+	font-family: system-ui, "Noto Sans Myanmar", sans-serif;
+	color: #292524;
+	background: #f5f5f4
+}
+
+* {
+	box-sizing: border-box
+}
+
+body {
+	margin: 0
+}
+
+.owner-only {
+	display: none
+}
+
+body.owner-authenticated .owner-only {
+	display: inline-block
+}
+
+#ownerLoginButton, #ownerLogoutButton {
+	border: 1px solid #ffffff66
+}
+
+#ownerLogoutButton {
+	background: #ffffff;
+	color: #7c2d12
+}
+
+header {
+	min-height: 70px;
+	background: #7c2d12;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 24px;
+	box-shadow: 0 2px 10px #0003
+}
+
+header b {
+	font-size: 20px
+}
+
+header small {
+	display: block;
+	color: #bbf7d0;
+	margin-top: 3px
+}
+
+nav {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap
+}
+
+button {
+	border: 0;
+	border-radius: 9px;
+	padding: 10px 15px;
+	cursor: pointer;
+	font-weight: 650
+}
+
+nav button {
+	background: #ffffff22;
+	color: white
+}
+
+nav button.active {
+	background: white;
+	color: #7c2d12
+}
+
+.tab {
+	display: none
+}
+
+.tab.active {
+	display: grid
+}
+
+#pos {
+	grid-template-columns: 1fr 350px;
+	gap: 16px;
+	padding: 18px
+}
+
+.panel, aside {
+	background: white;
+	border-radius: 14px;
+	padding: 18px;
+	box-shadow: 0 2px 12px #00000010
+}
+
+.wide {
+	margin: 18px
+}
+
+.chips {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap
+}
+
+.chips button.selected {
+	background: #7c2d12;
+	color: white
+}
+
+.products {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+	gap: 10px
+}
+
+.product {
+	background: #fff7ed;
+	border: 1px solid #fed7aa;
+	text-align: left;
+	min-height: 84px
+}
+
+.product strong, .product span {
+	display: block
+}
+
+.product span {
+	margin-top: 7px;
+	color: #9a3412
+}
+
+.line {
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	gap: 8px;
+	align-items: center;
+	border-bottom: 1px solid #eee;
+	padding: 10px 0
+}
+
+.line button {
+	padding: 5px 9px
+}
+
+.total {
+	display: flex;
+	justify-content: space-between;
+	font-size: 20px;
+	font-weight: bold;
+	margin: 20px 0
+}
+
+label {
+	display: block;
+	margin: 12px 0
+}
+
+input, select {
+	width: 100%;
+	padding: 11px;
+	border: 1px solid #d6d3d1;
+	border-radius: 8px;
+	margin-top: 5px
+}
+
+.primary {
+	background: #c2410c;
+	color: white;
+	width: 100%
+}
+
+.small {
+	width: auto
+}
+
+.order {
+	border: 1px solid #e7e5e4;
+	border-radius: 10px;
+	padding: 13px;
+	margin: 10px 0
+}
+
+.order-head, .title-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px
+}
+
+.badge {
+	background: #ffedd5;
+	padding: 4px 8px;
+	border-radius: 99px
+}
+
+.actions, .filters {
+	display: flex;
+	gap: 8px;
+	margin-top: 12px;
+	align-items: end;
+	flex-wrap: wrap
+}
+
+.filters {
+	background: #fafaf9;
+	padding: 10px;
+	border-radius: 10px
+}
+
+.filters label {
+	min-width: 150px
+}
+
+.stats {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px
+}
+
+.stat {
+	background: #fff7ed;
+	border-radius: 10px;
+	padding: 20px
+}
+
+.stat b {
+	font-size: 24px;
+	display: block
+}
+
+.table-wrap {
+	overflow: auto
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 12px 0
+}
+
+th, td {
+	text-align: left;
+	padding: 10px;
+	border-bottom: 1px solid #e7e5e4;
+	white-space: nowrap
+}
+
+th {
+	background: #fff7ed
+}
+
+.danger {
+	color: #b91c1c;
+	font-weight: bold
+}
+
+.cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+	gap: 12px
+}
+
+.card {
+	border: 1px solid #e7e5e4;
+	padding: 15px;
+	border-radius: 10px
+}
+
+.form-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px
+}
+
+.check-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 5px
+}
+
+.check-grid label {
+	margin: 0
+}
+
+.check-grid input {
+	width: auto
+}
+
+dialog {
+	border: 0;
+	border-radius: 14px;
+	min-width: 350px;
+	max-width: 620px
+}
+
+#toast {
+	position: fixed;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: #292524;
+	color: #fff;
+	padding: 11px 18px;
+	border-radius: 9px;
+	display: none
+}
+
+@media ( max-width :800px) {
+	header {
+		height: auto;
+		padding: 12px;
+		align-items: flex-start
+	}
+	nav {
+		justify-content: flex-end
+	}
+	#pos {
+		grid-template-columns: 1fr;
+		padding: 9px
+	}
+	aside {
+		position: sticky;
+		bottom: 0
+	}
+	.products {
+		grid-template-columns: repeat(2, 1fr)
+	}
+	.stats, .form-grid {
+		grid-template-columns: 1fr
+	}
+	.wide {
+		margin: 9px
+	}
+}
+/* ==================================================
+   Responsive Design — Tablet and Mobile
+   ================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+}
+
+/* Prevent inputs from overflowing */
+input,
+select,
+button,
+textarea {
+    max-width: 100%;
+    font: inherit;
+}
+
+button {
+    min-height: 42px;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+/* Responsive tables */
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-wrap table {
+    min-width: 700px;
+}
+
+/* Dialog responsiveness */
+dialog {
+    width: min(620px, calc(100% - 32px));
+    max-width: 620px;
+    max-height: 90vh;
+    padding: 22px;
+    border: 0;
+    border-radius: 16px;
+    overflow-y: auto;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    header {
+        padding: 12px 16px;
+    }
+
+    header nav {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 8px 0 2px;
+        scrollbar-width: none;
+    }
+
+    header nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    header nav button {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    main {
+        padding: 16px;
+    }
+
+    #pos.tab.active {
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 16px;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: block;
+        padding: 10px 12px;
+    }
+
+    header > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    header b {
+        font-size: 16px;
+    }
+
+    header small {
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    header nav {
+        margin-top: 8px;
+        padding-bottom: 4px;
+    }
+
+    header nav button {
+        min-height: 38px;
+        padding: 8px 13px;
+        font-size: 13px;
+        border-radius: 20px;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    /* POS becomes one column */
+    #pos.tab.active {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    #pos .panel,
+    #pos aside,
+    .panel,
+    .panel.wide {
+        width: 100%;
+        min-width: 0;
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+    #pos aside {
+        position: static;
+        max-height: none;
+    }
+
+    h2 {
+        font-size: 19px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    /* Table selection buttons */
+    .chips {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .chips button {
+        width: 100%;
+        min-width: 0;
+        padding: 9px 6px;
+        font-size: 12px;
+    }
+
+    /* Menu products */
+    .products {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .products > * {
+        min-width: 0;
+    }
+
+    .product,
+    .product-card {
+        min-height: 90px;
+        padding: 10px;
+    }
+
+    /* Cart */
+    #cart {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .total {
+        font-size: 18px;
+        padding: 12px 0;
+    }
+
+    #send {
+        width: 100%;
+        min-height: 50px;
+        font-size: 16px;
+    }
+
+    /* Titles and add buttons */
+    .title-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .title-row h2 {
+        width: 100%;
+        margin-bottom: 2px;
+    }
+
+    .title-row button {
+        width: 100%;
+    }
+
+    /* Filters */
+    .filters {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .filters label,
+    dialog label {
+        width: 100%;
+    }
+
+    .filters input,
+    .filters select,
+    .filters button,
+    dialog input,
+    dialog select {
+        display: block;
+        width: 100%;
+        min-height: 44px;
+        margin-top: 5px;
+    }
+
+    .filters button {
+        margin-top: 3px;
+    }
+
+    /* Forms */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .check-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    /* Waiter cards */
+    .cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    /* Reports */
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    /* Dialog */
+    dialog {
+        width: calc(100% - 20px);
+        max-width: none;
+        max-height: calc(100vh - 20px);
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    dialog h3 {
+        margin-top: 0;
+    }
+
+    .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        position: sticky;
+        bottom: -16px;
+        padding: 12px 0 16px;
+        background: white;
+    }
+
+    .actions button {
+        width: 100%;
+        min-height: 46px;
+    }
+
+    /* Toast */
+    #toast {
+        left: 10px;
+        right: 10px;
+        bottom: 14px;
+        width: auto;
+        text-align: center;
+    }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+    .products {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .chips {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .check-grid {
+        grid-template-columns: 1fr;
+    }
+
+    header nav button {
+        font-size: 12px;
+        padding: 7px 11px;
+    }
+}

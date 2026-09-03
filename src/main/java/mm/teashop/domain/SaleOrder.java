@@ -1,0 +1,4 @@
+package mm.teashop.domain;
+import jakarta.persistence.*; import lombok.*; import java.math.BigDecimal; import java.time.LocalDateTime; import java.util.*;
+@Entity @Table(name="sale_orders") @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class SaleOrder { @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id; @Column(unique=true) private String clientRef; @ManyToOne(optional=false) private ShopTable shopTable; @ManyToOne private Waiter waiter; @Enumerated(EnumType.STRING) private Enums.OrderStatus status; private LocalDateTime createdAt; @Column(precision=12,scale=2) private BigDecimal total; @Builder.Default @OneToMany(mappedBy="order",cascade=CascadeType.ALL,orphanRemoval=true) private List<OrderItem> items=new ArrayList<>(); @Builder.Default @OneToMany(mappedBy="order",cascade=CascadeType.ALL,orphanRemoval=true) private List<Payment> payments=new ArrayList<>(); }

@@ -1,0 +1,1 @@
+package mm.teashop.repo; import mm.teashop.domain.StockMovement; import org.springframework.data.jpa.repository.JpaRepository; import java.time.LocalDateTime; import java.util.List; public interface StockMovementRepository extends JpaRepository<StockMovement,Long>{ List<StockMovement> findByCreatedAtBetweenOrderByCreatedAtDesc(LocalDateTime from,LocalDateTime to); }

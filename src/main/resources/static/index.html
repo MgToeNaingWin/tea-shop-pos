@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="my">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#7c2d12">
+  <title>လက်ဖက်ရည်ဆိုင် POS</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <div>
+      <b>မြန်မာ့လက်ဖက်ရည်ဆိုင်</b>
+      <small id="net">● အွန်လိုင်း</small>
+    </div>
+    <nav>
+      <button data-tab="pos" class="active">အော်ဒါ</button>
+      <button data-tab="orders">အော်ဒါများ</button>
+      <button data-tab="inventory">လက်ကျန်ပစ္စည်း</button>
+      <button data-tab="waiters" class="owner-only">စားပွဲထိုးများ</button>
+      <button data-tab="report" class="owner-only">အစီရင်ခံစာ</button>
+      <button id="ownerLoginButton" type="button">Owner Login</button>
+      <button id="ownerLogoutButton" type="button" class="owner-only">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- POS Section -->
+    <section id="pos" class="tab active">
+      <div class="panel">
+        <h3>ဝိုင်းရွေးပါ</h3>
+        <div id="tables" class="chips"></div>
+        <h3>မီနူး</h3>
+        <div id="products" class="products"></div>
+      </div>
+      <aside>
+        <h3>ဘေလ်အသစ်</h3>
+        <label>စားပွဲထိုး
+          <select id="orderWaiter">
+            <option value="">တာဝန်မပေးရသေးပါ</option>
+          </select>
+        </label>
+        <div id="cart"></div>
+        <div class="total">စုစုပေါင်း <span id="total">0 ကျပ်</span></div>
+        <label>မှတ်ချက်
+          <input id="note" placeholder="ဥပမာ - ချိုလျှော့">
+        </label>
+        <button class="primary" id="send">အော်ဒါပို့မည်</button>
+      </aside>
+    </section>
+
+    <!-- Orders Section -->
+    <section id="orders" class="tab">
+      <div class="panel wide">
+        <h2>လက်ရှိအော်ဒါများ</h2>
+        <div id="order-list"></div>
+      </div>
+    </section>
+
+    <!-- Inventory Section -->
+    <section id="inventory" class="tab">
+      <div class="panel wide">
+        <div class="title-row">
+          <h2>ကုန်ကြမ်းနှင့် လက်ကျန်ပစ္စည်း စီမံခန့်ခွဲမှု</h2>
+          <button class="primary small owner-only" onclick="openIngredient()">+ ကုန်ကြမ်းအသစ်</button>
+        </div>
+        <div class="filters">
+          <label>စတင်သည့်ရက်<input id="moveFrom" type="date"></label>
+          <label>ပြီးဆုံးသည့်ရက်<input id="moveTo" type="date"></label>
+          <button onclick="loadInventory()">ရှာဖွေမည်</button>
+        </div>
+        <div id="ingredient-list" class="table-wrap"></div>
+        <h3>ပစ္စည်းဝင်/ထွက် မှတ်တမ်း</h3>
+        <div id="movement-list" class="table-wrap"></div>
+      </div>
+    </section>
+
+    <!-- Waiters Section -->
+    <section id="waiters" class="tab">
+      <div class="panel wide">
+        <div class="title-row">
+          <h2>စားပွဲထိုး စီမံခန့်ခွဲမှု</h2>
+          <button class="primary small" onclick="openWaiter()">+ စားပွဲထိုးအသစ်</button>
+        </div>
+        <p>စမ်းသပ်ဝင်ရောက်ရန် - <b>W001 / 1234</b></p>
+        <div id="waiter-list" class="cards"></div>
+      </div>
+    </section>
+
+    <!-- Reports Section -->
+    <section id="report" class="tab">
+      <div class="panel wide">
+        <h2>ရက်စွဲလိုက် အစီရင်ခံစာများ</h2>
+        <div class="filters">
+          <label>စတင်သည့်ရက်<input id="reportFrom" type="date"></label>
+          <label>ပြီးဆုံးသည့်ရက်<input id="reportTo" type="date"></label>
+          <label>စားပွဲထိုး
+            <select id="reportWaiter">
+              <option value="">စားပွဲထိုးအားလုံး</option>
+            </select>
+          </label>
+          <button onclick="report()">ထုတ်ယူမည်</button>
+        </div>
+        <div id="stats" class="stats"></div>
+        <h3>စားပွဲထိုးတစ်ဦးချင်းစီ၏ အရောင်း</h3>
+        <div id="waiter-sales"></div>
+        <h3>လက်ကျန်နည်းနေသော ပစ္စည်းများ</h3>
+        <div id="low"></div>
+        <h3>ရက်ပေါင်း ၃၀ အတွင်း သက်တမ်းကုန်မည့် ပစ္စည်းများ</h3>
+        <div id="expiry"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pay Dialog -->
+  <dialog id="ownerLoginDialog">
+    <form id="ownerLoginForm">
+      <h3>Owner / Admin Login</h3>
+      <p>စားပွဲထိုးများနှင့် အစီရင်ခံစာများကို စီမံရန် ဝင်ရောက်ပါ။</p>
+      <label>Username<input id="ownerUsername" autocomplete="username" required></label>
+      <label>Password<input id="ownerPassword" type="password" autocomplete="current-password" required></label>
+      <p id="ownerLoginError" class="danger" hidden></p>
+      <div class="actions">
+        <button type="button" onclick="document.querySelector('#ownerLoginDialog').close()">မလုပ်တော့ပါ</button>
+        <button type="submit" class="primary">Login</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Pay Dialog -->
+  <dialog id="payDialog">
+    <form method="dialog">
+      <h3>ငွေရှင်းမည်</h3>
+      <p id="payTotal"></p>
+      <label>ငွေပေးချေမှုနည်းလမ်း
+        <select id="method">
+          <option>CASH</option>
+          <option>KBZPAY</option>
+          <option>WAVEPAY</option>
+          <option>AYAPAY</option>
+          <option>CBPAY</option>
+        </select>
+      </label>
+      <label>ငွေပမာဏ<input id="amount" type="number"></label>
+      <label>ကိုးကားချက်/လုပ်ငန်းစဉ်နံပါတ် (Ref No.)<input id="reference"></label>
+      <div class="actions">
+        <button>ပိတ်မည်</button>
+        <button class="primary" id="confirmPay">ငွေရှင်းမည်</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Ingredient Dialog -->
+  <dialog id="ingredientDialog">
+    <form method="dialog">
+      <h3>ကုန်ကြမ်း</h3>
+      <input id="ingredientId" type="hidden">
+      <label>အမည်<input id="ingredientName" required></label>
+      <div class="form-grid">
+        <label>ရေတွက်ပုံယူနစ်<input id="ingredientUnit" required></label>
+        <label>လက်ရှိလက်ကျန်<input id="ingredientStock" type="number" step=".001" required></label>
+        <label>အနည်းဆုံးရှိရမည့် လက်ကျန်<input id="ingredientSafety" type="number" step=".001" required></label>
+        <label>တစ်ယူနစ်တန်ဖိုး<input id="ingredientCost" type="number" step=".01"></label>
+        <label>ဝယ်ယူသည့်ရက်စွဲ<input id="ingredientPurchase" type="date"></label>
+        <label>သက်တမ်းကုန်သည့်ရက်စွဲ<input id="ingredientExpiry" type="date"></label>
+      </div>
+      <label>ပစ္စည်းသွင်းသူ<input id="ingredientSupplier"></label>
+      <div class="actions">
+        <button>မလုပ်တော့ပါ</button>
+        <button class="primary" onclick="saveIngredient(event)">သိမ်းဆည်းမည်</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Stock Dialog -->
+  <dialog id="stockDialog">
+    <form method="dialog">
+      <h3>ကုန်ပစ္စည်း ဝင်/ထွက် မှတ်တမ်း</h3>
+      <input id="stockIngredientId" type="hidden">
+      <label>အမျိုးအစား
+        <select id="stockType">
+          <option value="PURCHASE">အဝယ်</option>
+          <option value="ADJUSTMENT_IN">လက်ကျန်တိုးခြင်း</option>
+          <option value="ADJUSTMENT_OUT">လက်ကျန်လျှော့ခြင်း</option>
+          <option value="WASTE">အလေအလွင့်/ပျက်စီး</option>
+        </select>
+      </label>
+      <label>ပမာဏ<input id="stockQty" type="number" step=".001"></label>
+      <label>ဝယ်ယူသည့်ရက်စွဲ<input id="stockPurchase" type="date"></label>
+      <label>သက်တမ်းကုန်သည့်ရက်စွဲ<input id="stockExpiry" type="date"></label>
+      <label>ကိုးကားချက်နံပါတ်<input id="stockRef"></label>
+      <label>မှတ်ချက်<input id="stockNote"></label>
+      <div class="actions">
+        <button>မလုပ်တော့ပါ</button>
+        <button class="primary" onclick="saveStock(event)">သိမ်းဆည်းမည်</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Waiter Dialog -->
+  <dialog id="waiterDialog">
+    <form method="dialog">
+      <h3>စားပွဲထိုး အကောင့်</h3>
+      <input id="waiterId" type="hidden">
+      <label>အမည်<input id="waiterName"></label>
+      <div class="form-grid">
+        <label>စားပွဲထိုးကုဒ်<input id="waiterCode"></label>
+        <label>PIN နံပါတ်<input id="waiterPin" type="password"></label>
+        <label>ဖုန်းနံပါတ်<input id="waiterPhone"></label>
+        <label>အသုံးပြုနိုင်မှု
+          <select id="waiterActive">
+            <option value="true">အသုံးပြုနိုင်သည်</option>
+            <option value="false">ပိတ်ထားသည်</option>
+          </select>
+        </label>
+      </div>
+      <label>တာဝန်ယူထားသော ဝိုင်းများ
+        <div id="waiterTables" class="check-grid"></div>
+      </label>
+      <div class="actions">
+        <button>မလုပ်တော့ပါ</button>
+        <button class="primary" onclick="saveWaiter(event)">သိမ်းဆည်းမည်</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
